@@ -1,0 +1,25 @@
+"tag"{
+    "pet"("animal"){
+        "cat"
+        "doggy"("dog")
+    }
+    "anime"{
+        "aot" ("atack on titan", "shingeki no kyojin")
+        "sao" ("sword art online")
+    }
+    "films"{
+        "dc"{
+            "batman"{
+                "joker"
+            }
+            "suicide squad"
+        }
+        "marvel"{
+            "mcu"{
+                "ant man"
+                "iron man"
+                "hulk"
+            }
+        }
+    }
+}

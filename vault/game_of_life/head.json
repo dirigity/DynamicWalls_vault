@@ -1,0 +1,13 @@
+{
+    "type": "animated",
+    "classification": {
+        "tittle": "game of life",
+        "tags": [
+            "maths",
+            "animated"
+        ],
+        "description": "conway's game of life",
+        "author": "Dirigity",
+        "authot_link": "dirigity.github.io"
+    }
+}
