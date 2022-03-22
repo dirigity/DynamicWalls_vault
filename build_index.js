@@ -136,14 +136,14 @@ function readTag(str, i, debug) {
             throw err;
         }
 
-        let res = [];
+        let res = {};
 
         Promise.all(files.map(file => {
             return new Promise((r) => {
                 fs.readFile("vault/" + file + "/head.json", { encoding: 'utf8', flag: 'r' }, (err, data) => {
 
                     console.log(JSON.parse(data).classification);
-                    res.push(JSON.parse(data).classification);
+                    res["vault/" + file + "/head.json"] = JSON.parse(data).classification;
 
                     // TODO comprobar que todas las tags existen
 
