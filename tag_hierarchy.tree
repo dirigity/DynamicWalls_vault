@@ -1,4 +1,6 @@
 "tag"{
+    "maths"("math")
+    "cute"("adorable")
     "pet"("animal"){
         "cat"
         "doggy"("dog")
@@ -22,4 +24,5 @@
             }
         }
     }
+    "animated"
 }

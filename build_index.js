@@ -103,7 +103,19 @@ function readTag(str, i, debug) {
 
 }
 
+
+function collect_tags(tag_hierarchy) {
+    let tags = [];
+    for (let tag in tag_hierarchy) {
+        tags.push(tag);
+        tags = tags.concat(tag_hierarchy[tag].synonyms)
+        tags = tags.concat(collect_tags(tag_hierarchy[tag].sub_tags))
+    }
+    return tags;
+}
+
 (() => {
+
 
     fs.readFile("tag_hierarchy.tree", { encoding: 'utf8', flag: 'r' }, (err, data) => {
 
@@ -127,34 +139,58 @@ function readTag(str, i, debug) {
         }
         //console.log("> " + str + " <");
 
-        fs.writeFile("tag_hierarchy.json", JSON.stringify(readTag(str, 0, "").ret.sub_tags), () => { });
+        let tag_hierarchy = readTag(str, 0, "").ret.sub_tags
+
+        fs.writeFile("tag_hierarchy.json", JSON.stringify(tag_hierarchy), () => { });
+
+        let tags = collect_tags(tag_hierarchy);
+
+        console.log("collected tags: ", tags);
+
+        fs.readdir("vault", async (err, files) => {
+
+            if (err) {
+                throw err;
+            }
+
+            let res = {};
+
+            Promise.all(files.map(file => {
+                return new Promise((r) => {
+                    fs.readFile("vault/" + file + "/head.json", { encoding: 'utf8', flag: 'r' }, (err, data) => {
+
+                        console.log(JSON.parse(data))
+                        for (let head_tag of JSON.parse(data).classification.tags) {
+                            let found = false;
+
+                            for (let existing_tag of tags) {
+                                if (existing_tag == head_tag) {
+                                    found = true;
+                                }
+                            }
+
+                            if (!found) {
+                                throw "unhiearchyfied tag: " + head_tag;
+                            }
+                        }
+
+
+
+                        res["vault/" + file + "/head.json"] = JSON.parse(data).classification;
+
+                        // TODO comprobar que todas las tags existen
+
+                        r();
+                    })
+                })
+            })).then(() => {
+                console.log(res)
+                writeFile("index.json", JSON.stringify(res));
+            })
+
+
+        });
     })
 
-    fs.readdir("vault", async (err, files) => {
 
-        if (err) {
-            throw err;
-        }
-
-        let res = {};
-
-        Promise.all(files.map(file => {
-            return new Promise((r) => {
-                fs.readFile("vault/" + file + "/head.json", { encoding: 'utf8', flag: 'r' }, (err, data) => {
-
-                    console.log(JSON.parse(data).classification);
-                    res["vault/" + file + "/head.json"] = JSON.parse(data).classification;
-
-                    // TODO comprobar que todas las tags existen
-
-                    r();
-                })
-            })
-        })).then(() => {
-            console.log(res)
-            writeFile("index.json", JSON.stringify(res));
-        })
-
-
-    });
 })();
