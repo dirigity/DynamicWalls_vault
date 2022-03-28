@@ -154,13 +154,16 @@ function collect_tags(tag_hierarchy) {
             }
 
             let res = {};
+            let found_ids = {};
 
             Promise.all(files.map(file => {
                 return new Promise((r) => {
-                    fs.readFile("vault/" + file + "/head.json", { encoding: 'utf8', flag: 'r' }, (err, data) => {
+                    fs.readFile("vault/" + file + "/head.json", { encoding: 'utf8', flag: 'r' }, (err, raw_data) => {
 
-                        console.log(JSON.parse(data))
-                        for (let head_tag of JSON.parse(data).classification.tags) {
+                        const data = JSON.parse(raw_data);
+
+                        //console.log(data)
+                        for (let head_tag of data.classification.tags) {
                             let found = false;
 
                             for (let existing_tag of tags) {
@@ -174,17 +177,19 @@ function collect_tags(tag_hierarchy) {
                             }
                         }
 
+                        if (data.id in found_ids) {
+                            throw "id: " + data.id + " is duplicated";
+                        }
+                        found_ids[data.id] = true;
 
 
-                        res["vault/" + file + "/head.json"] = JSON.parse(data).classification;
-
-                        // TODO comprobar que todas las tags existen
+                        res["vault/" + file + "/head.json"] = data.classification;
 
                         r();
                     })
                 })
             })).then(() => {
-                console.log(res)
+                // console.log(res)
                 writeFile("index.json", JSON.stringify(res));
             })
 

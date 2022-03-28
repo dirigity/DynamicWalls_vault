@@ -1,8 +1,9 @@
 {
+    "id": 0,
     "type": "img",
     "imgPath": "wallpaper.npg",
     "classification": {
-        "title":"freedom wings",
+        "title": "freedom wings",
         "tags": [
             "aot"
         ],
