@@ -23,8 +23,7 @@ for (let p of openverse_lib) {
     }
 
     let head = {
-        "id": 0,
-        "type": "url",
+        "type": "url-img",
         "imgUrl": p.url,
         "classification": classification
     }

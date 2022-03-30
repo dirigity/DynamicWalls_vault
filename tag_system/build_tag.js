@@ -103,21 +103,9 @@ function readTag(str, i, debug) {
 
 }
 
-
-function collect_tags(tag_hierarchy) {
-    let tags = [];
-    for (let tag in tag_hierarchy) {
-        tags.push(tag);
-        tags = tags.concat(tag_hierarchy[tag].synonyms)
-        tags = tags.concat(collect_tags(tag_hierarchy[tag].sub_tags))
-    }
-    return tags;
-}
-
 (() => {
 
-
-    fs.readFile("tag_hierarchy.tree", { encoding: 'utf8', flag: 'r' }, (err, data) => {
+    fs.readFile("tag_system/tag_hierarchy.tree", { encoding: 'utf8', flag: 'r' }, (err, data) => {
 
         let i = 0;
         let str = "";
@@ -141,60 +129,8 @@ function collect_tags(tag_hierarchy) {
 
         let tag_hierarchy = readTag(str, 0, "").ret.sub_tags
 
-        fs.writeFile("tag_hierarchy.json", JSON.stringify(tag_hierarchy), () => { });
+        fs.writeFile("tag_system/tag_hierarchy.json", JSON.stringify(tag_hierarchy), () => { });
 
-        let tags = collect_tags(tag_hierarchy);
-
-        console.log("collected tags: ", tags);
-
-        fs.readdir("vault", async (err, files) => {
-
-            if (err) {
-                throw err;
-            }
-
-            let res = {};
-            let found_ids = {};
-
-            Promise.all(files.map(file => {
-                return new Promise((r) => {
-                    fs.readFile("vault/" + file + "/head.json", { encoding: 'utf8', flag: 'r' }, (err, raw_data) => {
-
-                        const data = JSON.parse(raw_data);
-
-                        //console.log(data)
-                        for (let head_tag of data.classification.tags) {
-                            let found = false;
-
-                            for (let existing_tag of tags) {
-                                if (existing_tag == head_tag) {
-                                    found = true;
-                                }
-                            }
-
-                            if (!found) {
-                                throw "unhiearchyfied tag: " + head_tag;
-                            }
-                        }
-
-                        if (data.id in found_ids) {
-                            throw "id: " + data.id + " is duplicated";
-                        }
-                        found_ids[data.id] = true;
-
-
-                        res["vault/" + file + "/head.json"] = data.classification;
-
-                        r();
-                    })
-                })
-            })).then(() => {
-                // console.log(res)
-                writeFile("index.json", JSON.stringify(res));
-            })
-
-
-        });
     })
 
 

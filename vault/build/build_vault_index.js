@@ -139,15 +139,13 @@ function collect_tags(tag_hierarchy) {
         }
         //console.log("> " + str + " <");
 
-        let tag_hierarchy = readTag(str, 0, "").ret.sub_tags
-
-        fs.writeFile("tag_hierarchy.json", JSON.stringify(tag_hierarchy), () => { });
+        let tag_hierarchy = JSON.parse(fs.readFileSync("tag_system/tag_hierarchy.json"));
 
         let tags = collect_tags(tag_hierarchy);
 
         console.log("collected tags: ", tags);
 
-        fs.readdir("vault", async (err, files) => {
+        fs.readdir("vault/media", async (err, files) => {
 
             if (err) {
                 throw err;
@@ -158,7 +156,7 @@ function collect_tags(tag_hierarchy) {
 
             Promise.all(files.map(file => {
                 return new Promise((r) => {
-                    fs.readFile("vault/" + file + "/head.json", { encoding: 'utf8', flag: 'r' }, (err, raw_data) => {
+                    fs.readFile("vault/media/" + file + "/head.json", { encoding: 'utf8', flag: 'r' }, (err, raw_data) => {
 
                         const data = JSON.parse(raw_data);
 
