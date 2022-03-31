@@ -77,6 +77,11 @@
         "soccer"
         "stadium"
         "golf"
+        "chess"
+        "videogame"("esport","e-sport"){
+            "minecraft"
+            "league of legends"("LOL")
+        }
     }
 
     "indoors"{
