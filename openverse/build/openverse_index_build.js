@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 
-let res = {};
+let res = [];
 const openverse_lib = JSON.parse(fs.readFileSync("openverse/build/openverse.json"))
 
 function collect_tags(tag_hierarchy) {
@@ -47,6 +47,7 @@ for (let p of openverse_lib) {
     }
 
     let classification = {
+        "file": file,
         "title": p.title,
         "tags": built_tags,
         "description": null,
@@ -66,7 +67,7 @@ for (let p of openverse_lib) {
     fs.mkdirSync(path, { recursive: true })
     fs.writeFileSync(file, JSON.stringify(head));
 
-    res[file] = classification;
+    res.push(classification);
 
 }
 
