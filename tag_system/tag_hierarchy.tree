@@ -1,5 +1,10 @@
 "tag"{
-    "maths"("math")
+    "maths"("math"){
+        "geometry"{
+            "spherical"("ball-shaped")
+        }
+        "graph"
+    }
     "cute"("adorable")
     "pet"("animal"){
         "cat"
@@ -8,6 +13,7 @@
     "anime"{
         "aot" ("atack on titan", "shingeki no kyojin")
         "sao" ("sword art online")
+        "killlakill"("satsukikiryuin")
     }
     "films"{
         "dc"{
@@ -25,4 +31,60 @@
         }
     }
     "animated"
+    "art"("design"){
+        "abstract"
+        "still life"("stilllife")
+        "pattern"("texture"){
+            "stripe"
+        }
+        "color"{
+            "black"("dark"){
+                "shadow"
+            }
+            "white"("light","bright")
+        }
+    }
+    "food"
+    "nature"("outdoors"){
+        "sky"{
+            "dusk"
+            "dawn"
+            "sun"
+            "evening"
+            "sunset"
+        }
+        "landscape"("skyline")
+        "sea"("ocean")
+        "leaf"
+        "grass"
+        "underwater"
+        "water"
+        "tree"{
+            "stamp"
+            "wood"
+        }
+        "garden"
+    }
+    "futuristic"
+    "feelings"("emotion"){
+        "freedom"
+        "dark"
+        "happyness"("celebration","fun")
+    }
+    "old"("vintage","retro")
+    "sport"("game"){
+        "football"
+        "soccer"
+        "stadium"
+        "golf"
+    }
+
+    "indoors"{
+        "furniture"
+        "interior design"
+        "parquet"
+        "wall" 
+        "room"
+        "floor"
+    }
 }
