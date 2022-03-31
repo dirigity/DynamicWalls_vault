@@ -50,7 +50,7 @@ for (let p of openverse_lib) {
         "file": file,
         "title": p.title,
         "tags": built_tags,
-        "description": null,
+        "description": "",
     }
 
     let head = {
