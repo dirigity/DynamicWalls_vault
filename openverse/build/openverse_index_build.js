@@ -37,11 +37,11 @@ for (let p of openverse_lib) {
         if (!found) {
             error = true;
             unhiearchyfied_tags.push(t.name);
-        }else{
+        } else {
             built_tags.push(t.name)
 
         }
-        
+
 
 
     }
@@ -50,17 +50,17 @@ for (let p of openverse_lib) {
         "title": p.title,
         "tags": built_tags,
         "description": null,
-        "author": p.creator,
-        "authot_link": p.creator_url,
-        "license": p.license + "-" + p.license_version,
-        "license_link": p.license_url
     }
 
     let head = {
         "type": "url-img",
         "imgUrl": p.url,
         "thumbUrl": p.thumbnail,
-        "classification": classification
+        "classification": classification,
+        "author": p.creator,
+        "authot_link": p.creator_url,
+        "license": p.license + "-" + p.license_version,
+        "license_link": p.license_url
     }
 
     fs.mkdirSync(path, { recursive: true })
@@ -70,7 +70,6 @@ for (let p of openverse_lib) {
 
 }
 
-if (!error) {
-    fs.writeFileSync("openverse_index.json", JSON.stringify(res));
-}
+fs.writeFileSync("openverse_index.json", JSON.stringify(res));
+
 console.log(unhiearchyfied_tags);
